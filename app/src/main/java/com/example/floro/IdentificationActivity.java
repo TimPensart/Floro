@@ -86,7 +86,7 @@ public class IdentificationActivity extends AppCompatActivity {
 
         imageView.setImageBitmap(rotatedBitmap);
 
-        //IdentifyPlant(rotatedBitmap);
+        IdentifyPlant(rotatedBitmap);
 
     } // on create
 
@@ -111,7 +111,7 @@ public class IdentificationActivity extends AppCompatActivity {
                     byte[] imageBytes = byteArrayOutputStream.toByteArray();
                     String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-                    String apiKey = "REDACTED_API_KEY";
+                    String apiKey = getResources().getString(R.string.api_key);
 
                     JSONObject data = new JSONObject();
                     try {
