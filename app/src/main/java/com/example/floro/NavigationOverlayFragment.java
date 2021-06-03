@@ -8,6 +8,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -79,6 +81,14 @@ public class NavigationOverlayFragment extends Fragment {
         AnimateIn();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.popBackStack("fragNav", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
     public void AnimateIn() {
         navigationBackground.startAnimation(fadeIn);
         imageViewSteel.startAnimation(slideUpIn);
@@ -92,6 +102,8 @@ public class NavigationOverlayFragment extends Fragment {
     public void AnimateOut() {
 
     }
+
+
 
 
 

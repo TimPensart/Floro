@@ -53,9 +53,9 @@ public class UitdagingenAdapter extends RecyclerView.Adapter<UitdagingenAdapter.
                     .into(holder.uitdagingImageView);
         }
 
-        holder.prijs1Text.setText(challengeItemData.getPrijs1());
-        holder.prijs2Text.setText(challengeItemData.getPrijs2());
-        holder.prijs3Text.setText(challengeItemData.getPrijs3());
+        holder.prijs1Text.setText("+" + challengeItemData.getPrijs1());
+        holder.prijs2Text.setText("+" + challengeItemData.getPrijs2());
+        holder.prijs3Text.setText("+" + challengeItemData.getPrijs3() + "XP");
     }
 
     @Override

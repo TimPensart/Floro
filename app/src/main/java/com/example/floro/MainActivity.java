@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container_main,new NavigationOverlayFragment());
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.addToBackStack("fragNav");
         fragmentTransaction.commit();
     }
 

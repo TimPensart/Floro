@@ -86,7 +86,7 @@ public class IdentificationActivity extends AppCompatActivity {
 
         imageView.setImageBitmap(rotatedBitmap);
 
-        IdentifyPlant(rotatedBitmap);
+        //IdentifyPlant(rotatedBitmap);
 
     } // on create
 

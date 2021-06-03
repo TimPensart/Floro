@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 public class UitdagingenActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private ImageButton closeButton;
     private UitdagingenAdapter adapter;
     private List<Object> uitdagingenList = new ArrayList<Object>();
 
@@ -50,5 +53,13 @@ public class UitdagingenActivity extends AppCompatActivity {
 
         adapter = new UitdagingenAdapter(this, uitdagingenList);
         recyclerView.setAdapter(adapter);
+
+        closeButton = findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }
