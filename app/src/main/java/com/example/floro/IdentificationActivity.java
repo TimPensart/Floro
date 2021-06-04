@@ -1,6 +1,7 @@
 package com.example.floro;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +12,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.*;
@@ -37,6 +40,9 @@ public class IdentificationActivity extends AppCompatActivity {
     Bitmap bitmap;
     ImageView imageView;
     TextView plantNameText;
+    TextView probabilityTextView;
+    ProgressBar progressCircle;
+    ConstraintLayout progressOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +51,12 @@ public class IdentificationActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.imageView);
         plantNameText = findViewById(R.id.plantname_title);
+        probabilityTextView = findViewById(R.id.probabilityTextView);
 
+        progressCircle = findViewById(R.id.progressBar);
+        progressCircle.getProgress();
+
+        progressOverlay = findViewById(R.id.progress_overlay);
 
         imagePath = getIntent().getExtras().getString("path");
         File imgFile = new File(imagePath);
@@ -86,7 +97,7 @@ public class IdentificationActivity extends AppCompatActivity {
 
         imageView.setImageBitmap(rotatedBitmap);
 
-        //IdentifyPlant(rotatedBitmap);
+        IdentifyPlant(rotatedBitmap);
 
     } // on create
 
@@ -127,8 +138,7 @@ public class IdentificationActivity extends AppCompatActivity {
 
                         // add modifiers
                         JSONArray modifiers = new JSONArray()
-                                .put("crops_medium")
-                                .put("similar_images");
+                                .put("crops_simple");
                         data.put("modifiers", modifiers);
 
                         // add language
@@ -137,11 +147,8 @@ public class IdentificationActivity extends AppCompatActivity {
                         // add details
                         JSONArray plantDetails = new JSONArray()
                                 .put("common_names")
-                                .put("url")
                                 .put("name_authority")
-                                .put("wiki_description")
-                                .put("taxonomy")
-                                .put("synonyms");
+                                .put("wiki_description");
                         data.put("plant_details", plantDetails);
                     } catch (Exception e){
                         e.printStackTrace();
@@ -177,8 +184,13 @@ public class IdentificationActivity extends AppCompatActivity {
                         JSONObject suggestion;
                         JSONObject plantObj;
 
-                        while(!nameFound && index <= suggestions.length()) {
+                        while(!nameFound && index < suggestions.length()) {
                             suggestion = suggestions.getJSONObject(index);
+                            String probability = suggestion.getString("probability");
+                            Log.d("post", probability);
+                            if (Double.parseDouble(probability) < 0.1) {
+                                break;
+                            }
                             plantObj = suggestion.getJSONObject("plant_details");
                             if (!plantObj.isNull("common_names")) {
 
@@ -188,10 +200,11 @@ public class IdentificationActivity extends AppCompatActivity {
                                 Log.d("post", firstCommonName );
 
                                 plantNameText.setText(firstCommonName);
+                                probabilityTextView.setText(probability);
 
                                 nameFound = true;
                             } else {
-                                Log.d("post", "null common names found at suggestion index " + index);
+                                Log.d("post", "geen soort gevonden" + index);
                                 index++;
                             }
                         }
@@ -203,6 +216,8 @@ public class IdentificationActivity extends AppCompatActivity {
                     } catch (Throwable t) {
                         Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
                     }
+
+                    progressOverlay.setVisibility(View.GONE);
 
                     con.disconnect();
                 } catch (Exception e) {

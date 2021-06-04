@@ -106,28 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
         objScaleGestureDetector = new ScaleGestureDetector(this, new PinchZoomListener());
 
-
-        // API TEST
-
-        /*
-        Button myButton = findViewById(R.id.api_button);
-
-        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flower);
-        myButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    new NetworkAsyncTask().execute(imageBitmap);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
-        */
-
-
     }// oncreate
 
 
@@ -183,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         previewView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                objScaleGestureDetector.onTouchEvent(motionEvent);
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     // Get the MeteringPointFactory from PreviewView
                     MeteringPointFactory factory = previewView.getMeteringPointFactory();
@@ -204,15 +183,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        previewView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                objScaleGestureDetector.onTouchEvent(motionEvent);
-                return true;
-            }
-        });
-
 
     } // Bindpreview
 

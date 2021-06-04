@@ -31,27 +31,62 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <LinearLayout
-                    android:paddingVertical="50dp"
-                    android:paddingHorizontal="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="50dp">
+
                     <TextView
                         android:id="@+id/plantname_title"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textAlignment="center"
                         android:text="Test"
-                        android:textSize="22sp"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/rarityTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="common"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/probabilityTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="probability"
+                        android:textAlignment="center" />
 
 
                 </LinearLayout>
 
             </ScrollView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/progress_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="64dp"
+                    android:indeterminate="true"
+                    android:indeterminateDrawable="@drawable/progress_bg"
+                    android:progressDrawable="@drawable/progress_bg"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.cardview.widget.CardView>

@@ -33,14 +33,14 @@
                 app:layout_constraintStart_toEndOf="@+id/prijzenText">
 
                 <ImageView
-                    android:id="@+id/dropletImage"
+                    android:id="@+id/seedImage"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:paddingEnd="4dp"
-                    app:srcCompat="@drawable/ic_droplet_small" />
+                    android:layout_height="30dp"
+                    android:paddingEnd="2dp"
+                    app:srcCompat="@drawable/ic_seed_small" />
 
                 <TextView
-                    android:id="@+id/prijs2Text"
+                    android:id="@+id/prijs1Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_regular"
@@ -62,14 +62,14 @@
                 app:layout_constraintStart_toEndOf="@+id/linearLayout">
 
                 <ImageView
-                    android:id="@+id/seedImage"
+                    android:id="@+id/dropletImage"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:paddingEnd="2dp"
-                    app:srcCompat="@drawable/ic_seed_small" />
+                    android:layout_height="24dp"
+                    android:paddingEnd="4dp"
+                    app:srcCompat="@drawable/ic_droplet_small" />
 
                 <TextView
-                    android:id="@+id/prijs1Text"
+                    android:id="@+id/prijs2Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_regular"
