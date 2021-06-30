@@ -1,76 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- navigation overlay -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigationBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/ThemeOverlay.Floro.FullscreenContainer"
-    tools:context=".NavigationOverlayFragment">
+    android:background="#99000000"
+    android:clickable="true">
 
-    <!-- navigation overlay -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/navigationBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#99000000"
-        android:clickable="true">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:onClick="closeOnClick"
+        android:padding="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/steelImage"
-            android:layout_width="wrap_content"
-            android:layout_height="500dp"
+        <ImageButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@android:color/transparent"
+            android:onClick="closeOnClick"
             android:scaleType="fitCenter"
-            android:src="@drawable/steel"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_close" />
+    </FrameLayout>
 
-        <ImageButton
-            android:id="@+id/tuinButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="310dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_tuin_button"
-            android:translationX="-40dp"
-            app:layout_constraintBottom_toBottomOf="@+id/steelImage"
-            app:layout_constraintStart_toEndOf="@+id/steelImage" />
+    <ImageButton
+        android:id="@+id/tuinButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="310dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_tuin_button"
+        android:translationX="-40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/steelImage"
+        app:layout_constraintStart_toEndOf="@+id/steelImage" />
 
-        <ImageButton
-            android:id="@+id/quizButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="420dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_quiz_button"
-            android:translationX="-40dp"
-            app:layout_constraintBottom_toBottomOf="@+id/steelImage"
-            app:layout_constraintStart_toStartOf="@+id/steelImage" />
+    <ImageButton
+        android:id="@+id/quizButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="420dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_quiz_button"
+        android:translationX="-40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/steelImage"
+        app:layout_constraintStart_toStartOf="@+id/steelImage" />
 
-        <ImageButton
-            android:id="@+id/uitdagingenButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="170dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_uitdagingen_button"
-            android:translationX="35dp"
-            app:layout_constraintBottom_toBottomOf="@+id/steelImage"
-            app:layout_constraintEnd_toStartOf="@+id/steelImage" />
+    <ImageButton
+        android:id="@+id/uitdagingenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="170dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_uitdagingen_button"
+        android:translationX="35dp"
+        app:layout_constraintBottom_toBottomOf="@+id/steelImage"
+        app:layout_constraintEnd_toStartOf="@+id/steelImage" />
 
-        <ImageButton
-            android:id="@+id/profielButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="54dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_profiel_button"
-            android:translationX="-35dp"
-            app:layout_constraintBottom_toBottomOf="@+id/steelImage"
-            app:layout_constraintStart_toEndOf="@+id/steelImage" />
+    <ImageButton
+        android:id="@+id/profielButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="54dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_profiel_button"
+        android:translationX="-35dp"
+        app:layout_constraintBottom_toBottomOf="@+id/steelImage"
+        app:layout_constraintStart_toEndOf="@+id/steelImage" />
+
+    <ImageView
+        android:id="@+id/steelImage"
+        android:layout_width="wrap_content"
+        android:layout_height="500dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/steel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

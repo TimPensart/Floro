@@ -1,25 +1,40 @@
 package com.example.floro;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,9 +43,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -41,8 +61,17 @@ public class IdentificationActivity extends AppCompatActivity {
     ImageView imageView;
     TextView plantNameText;
     TextView probabilityTextView;
-    ProgressBar progressCircle;
-    ConstraintLayout progressOverlay;
+    TextView rarityTextView;
+
+    private AlertDialog.Builder alertDialogBuilder;
+    private AlertDialog alertDialog;
+
+    private ImageButton backButton;
+    private TextView wikiTextView;
+
+    private ChallengesList challengesListInstance = ChallengesList.getInstance();
+
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +81,51 @@ public class IdentificationActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         plantNameText = findViewById(R.id.plantname_title);
         probabilityTextView = findViewById(R.id.probabilityTextView);
+        wikiTextView = findViewById(R.id.wikiTextView);
+        rarityTextView = findViewById(R.id.rarityTextView);
 
-        progressCircle = findViewById(R.id.progressBar);
-        progressCircle.getProgress();
+        pref = getApplicationContext().getSharedPreferences("completedChallenges", 0); // 0 - for private mode
 
-        progressOverlay = findViewById(R.id.progress_overlay);
+        String imagePath = (String) getIntent().getExtras().getString("imagePath");
+        Bitmap imageBitmap = imagePathToBitmap(imagePath);
+        imageView.setImageBitmap(imageBitmap);
 
-        imagePath = getIntent().getExtras().getString("path");
+        String plantTitle = (String) getIntent().getExtras().get("title");
+        String wikiDescriptionText = (String) getIntent().getExtras().get("wiki");
+
+        try {
+            evalCompletion(plantTitle);
+        } catch(Exception e) {
+            Log.e("evalCompletion", e.getMessage(), e);
+        }
+
+
+        double probability = Double.parseDouble( (String) getIntent().getExtras().get("probability") );
+        int percentageProbability = (int) (probability * 100);
+
+        plantNameText.setText(plantTitle);
+        probabilityTextView.setText(String.valueOf(percentageProbability) + "% zekerheid");
+        if (wikiDescriptionText != null) {
+            wikiTextView.setText(wikiDescriptionText);
+        }
+
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+    } // on create
+
+    public Bitmap imagePathToBitmap(String imagePath) {
+        Bitmap bitmap;
+
         File imgFile = new File(imagePath);
 
-        if (imgFile.exists()) {
-            bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        }
+        bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
 
         // getting EXIF metadata of image to get image rotation and rotating bitmap accordingly
         ExifInterface exif = null;
@@ -76,7 +138,7 @@ public class IdentificationActivity extends AppCompatActivity {
                 ExifInterface.ORIENTATION_UNDEFINED);
 
         Bitmap rotatedBitmap = null;
-        switch(orientation) {
+        switch (orientation) {
 
             case ExifInterface.ORIENTATION_ROTATE_90:
                 rotatedBitmap = rotateImage(bitmap, 90);
@@ -95,11 +157,8 @@ public class IdentificationActivity extends AppCompatActivity {
                 rotatedBitmap = bitmap;
         }
 
-        imageView.setImageBitmap(rotatedBitmap);
-
-        IdentifyPlant(rotatedBitmap);
-
-    } // on create
+        return rotatedBitmap;
+    }
 
     public static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
@@ -108,150 +167,112 @@ public class IdentificationActivity extends AppCompatActivity {
                 matrix, true);
     } // rotate bitmap
 
+    public void evalCompletion(String name) {
+        String challengePlantName = "";
+        ArrayList<Object> completedChallenges = new ArrayList<Object>();
+        ArrayList<String> completedChallengeNames = new ArrayList<String>();
 
-    public void IdentifyPlant(Bitmap bitmap) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
+        SharedPreferences.Editor editor = pref.edit();
 
-        executor.execute(new Runnable() {
+        alertDialogBuilder = new AlertDialog.Builder(this);
+        final View popup = getLayoutInflater().inflate(R.layout.popup_challenge_complete, null);
+
+        Button okeButton = popup.findViewById(R.id.okeButton);
+        TextView prijs1text = popup.findViewById(R.id.prijs1TextPopup);
+        TextView prijs2text = popup.findViewById(R.id.prijs2TextPopup);
+        TextView prijs3text = popup.findViewById(R.id.prijs3TextPopup);
+
+        LinearLayout container = popup.findViewById(R.id.completedChallengesContainer);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        params.bottomMargin = 20;
+
+        alertDialogBuilder.setView(popup);
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        okeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                try {
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                    byte[] imageBytes = byteArrayOutputStream.toByteArray();
-                    String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-                    String apiKey = getResources().getString(R.string.api_key);
-
-                    JSONObject data = new JSONObject();
-                    try {
-                        data.put("api_key", apiKey);
-
-                        // add images
-                        JSONArray images = new JSONArray();
-
-                        images.put(imageString);
-
-                        data.put("images", images);
-
-
-                        // add modifiers
-                        JSONArray modifiers = new JSONArray()
-                                .put("crops_simple");
-                        data.put("modifiers", modifiers);
-
-                        // add language
-                        data.put("plant_language", "nl");
-
-                        // add details
-                        JSONArray plantDetails = new JSONArray()
-                                .put("common_names")
-                                .put("name_authority")
-                                .put("wiki_description");
-                        data.put("plant_details", plantDetails);
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                    Log.d("post", "called");
-                    URL url = new URL("https://api.plant.id/v2/identify");
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-                    con.setDoOutput(true);
-                    con.setDoInput(true);
-                    con.setRequestMethod("POST");
-                    con.setRequestProperty("Content-Type", "application/json");
-
-                    OutputStream os = con.getOutputStream();
-                    os.write(data.toString().getBytes());
-                    os.close();
-
-                    InputStream is = con.getInputStream();
-                    Log.d("post", is.toString());
-                    String response = convertInputStreamToString(is);
-
-                    Log.d("post", response);
-                    try {
-
-                        JSONObject obj = new JSONObject(response);
-                        JSONArray suggestions = obj.getJSONArray("suggestions");
-
-
-
-                        int index = 0;
-                        boolean nameFound = false;
-                        JSONObject suggestion;
-                        JSONObject plantObj;
-
-                        while(!nameFound && index < suggestions.length()) {
-                            suggestion = suggestions.getJSONObject(index);
-                            String probability = suggestion.getString("probability");
-                            Log.d("post", probability);
-                            if (Double.parseDouble(probability) < 0.1) {
-                                break;
-                            }
-                            plantObj = suggestion.getJSONObject("plant_details");
-                            if (!plantObj.isNull("common_names")) {
-
-                                JSONArray commonNames = plantObj.getJSONArray("common_names");
-
-                                String firstCommonName = commonNames.getString(0);
-                                Log.d("post", firstCommonName );
-
-                                plantNameText.setText(firstCommonName);
-                                probabilityTextView.setText(probability);
-
-                                nameFound = true;
-                            } else {
-                                Log.d("post", "geen soort gevonden" + index);
-                                index++;
-                            }
-                        }
-
-                        if (!nameFound) {
-                            plantNameText.setText("Probeer opnieuw");
-                        }
-
-                    } catch (Throwable t) {
-                        Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
-                    }
-
-                    progressOverlay.setVisibility(View.GONE);
-
-                    con.disconnect();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        //UI Thread work here
-                    }
-                });
+            public void onClick(View view) {
+                alertDialog.hide();
             }
         });
-    }
 
-    private String convertInputStreamToString(InputStream inputStream)
-            throws IOException {
+        for (int i = 0; i < challengesListInstance.challengesList.size(); i++) {
+            if (ChallengeWithPicture.class.isInstance(challengesListInstance.challengesList.get(i))) {
 
-        final char[] buffer = new char[8192];
-        final StringBuilder result = new StringBuilder();
+                ChallengeWithPicture currentChallenge = (ChallengeWithPicture) challengesListInstance.challengesList.get(i);
+                challengePlantName = currentChallenge.getPlantName();
 
-        // InputStream -> Reader
-        try (Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-            int charsRead;
-            while ((charsRead = reader.read(buffer, 0, buffer.length)) > 0) {
-                result.append(buffer, 0, charsRead);
+                if (name.toLowerCase().contains(challengePlantName.toLowerCase()) && !challengePlantName.isEmpty()) {
+                    TextView textView = new TextView(this);
+                    textView.setText(currentChallenge.getChallengeTitle());
+
+                    textView.setLayoutParams(params);
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    textView.setTextColor(ContextCompat.getColor(this, R.color.floro_bright_green));
+                    textView.setTextSize(18);
+                    textView.setTypeface(null, Typeface.BOLD);
+                    container.addView(textView);
+
+                    prijs1text.setText("+" + currentChallenge.getPrijs1());
+                    prijs2text.setText("+" + currentChallenge.getPrijs2());
+                    prijs3text.setText(currentChallenge.getPrijs3() + "xp");
+
+                    alertDialog.show();
+
+                    SeedsList.getInstance().seedsList.add(currentChallenge.getSeed());
+                    SeedsNotPlanted.getInstance().seedsNotPlantedList.add(currentChallenge.getSeed());
+                    completedChallenges.add(currentChallenge);
+                    completedChallengeNames.add(currentChallenge.getPlantName());
+
+                    editor.putBoolean(currentChallenge.getPlantName(), true);
+                    editor.commit();
+                    Log.d("challengetest", "evalCompletion: completed and removed challenge : " + currentChallenge.getChallengeTitle());
+                }
+            } else {
+
+                Challenge currentChallenge = (Challenge) challengesListInstance.challengesList.get(i);
+                challengePlantName = currentChallenge.getPlantName();
+
+                if (!name.toLowerCase().equals("probeer opnieuw") && challengePlantName.equals("any")) { // if title does not equal probeer opnieuw
+                    TextView textView = new TextView(this);
+                    textView.setText(currentChallenge.getChallengeTitle());
+
+                    textView.setLayoutParams(params);
+                    textView.setTextColor(ContextCompat.getColor(this, R.color.floro_bright_green));
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    textView.setTextSize(18);
+                    textView.setTypeface(null, Typeface.BOLD);
+                    container.addView(textView);
+
+                    prijs1text.setText("+" + currentChallenge.getPrijs1());
+                    prijs2text.setText("+" + currentChallenge.getPrijs2());
+                    prijs3text.setText(currentChallenge.getPrijs3() + "xp");
+
+                    alertDialog.show();
+
+                    SeedsList.getInstance().seedsList.add(currentChallenge.getSeed());
+                    SeedsNotPlanted.getInstance().seedsNotPlantedList.add(currentChallenge.getSeed());
+                    Log.d("challengetest", "evalCompletion: " + challengePlantName);
+                    completedChallenges.add(currentChallenge);
+                    completedChallengeNames.add(currentChallenge.getPlantName());
+
+                    editor.putBoolean(currentChallenge.getPlantName(), true);
+                    editor.commit();
+                    Log.d("challengetest", "evalCompletion: completed and removed challenge : " + currentChallenge.getChallengeTitle());
+                }
             }
         }
 
-        return result.toString();
+        // remove all completed challenges
+        ChallengesList.getInstance().challengesList.removeAll(completedChallenges);
+
 
     }
+
+
 
 }

@@ -29,13 +29,9 @@ public class UitdagingenActivity extends AppCompatActivity {
 
         adapter = new UitdagingenAdapter(this);
         recyclerView.setAdapter(adapter);
+    }
 
-        closeButton = findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+    public void closeButtonOnClick(View v) {
+        finish();
     }
 }

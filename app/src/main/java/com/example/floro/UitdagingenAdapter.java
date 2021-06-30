@@ -20,13 +20,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UitdagingenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Object> list;
     private Context context;
-    private ChallengesList challengesList = new ChallengesList();
+    private ChallengesList challengesListInstance = ChallengesList.getInstance();
 
     public UitdagingenAdapter(Context ct) {
         this.context = ct;
-        this.list = challengesList.getChallengesList();
     }
 
 
@@ -48,10 +46,11 @@ public class UitdagingenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Log.d("challengetest", "onBindViewHolder: " + ChallengesList.getInstance().challengesList);
 
         if (getItemViewType(position) == 0) {
             ChallengeWithPictureViewHolder challengeWithPictureViewHolder = (ChallengeWithPictureViewHolder) holder;
-            ChallengeWithPicture challengeWithPictureObject = (ChallengeWithPicture) list.get(position);
+            ChallengeWithPicture challengeWithPictureObject = (ChallengeWithPicture) challengesListInstance.challengesList.get(position);
 
             challengeWithPictureViewHolder.uitdagingTitle.setText(challengeWithPictureObject.getChallengeTitle());
             if (challengeWithPictureObject.getImageURL() != null) {
@@ -72,7 +71,7 @@ public class UitdagingenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         } else { // normal viewholder no picture
             ChallengeViewHolder challengeViewHolder = (ChallengeViewHolder) holder;
-            Challenge challengeObject = (Challenge) list.get(position);
+            Challenge challengeObject = (Challenge) challengesListInstance.challengesList.get(position);
 
             challengeViewHolder.uitdagingTitle.setText(challengeObject.getChallengeTitle());
 
@@ -84,7 +83,7 @@ public class UitdagingenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (ChallengeWithPicture.class.isInstance(list.get(position))) {
+        if (ChallengeWithPicture.class.isInstance(challengesListInstance.challengesList.get(position))) {
             return 0;
         } else {
             return 1;
@@ -94,7 +93,7 @@ public class UitdagingenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return challengesListInstance.challengesList.size();
     }
 
     public class ChallengeWithPictureViewHolder extends RecyclerView.ViewHolder {

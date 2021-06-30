@@ -65,6 +65,21 @@ public class NavigationOverlayFragment extends Fragment {
             }
         });
 
+        imageButtonTuin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), TuinActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imageButtonQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), QuizActivity.class);
+                startActivity(intent);
+            }
+        });
 
         slideUpIn = AnimationUtils.loadAnimation(getContext(),
                 R.anim.slide_up_in);
@@ -102,9 +117,5 @@ public class NavigationOverlayFragment extends Fragment {
     public void AnimateOut() {
 
     }
-
-
-
-
 
 }

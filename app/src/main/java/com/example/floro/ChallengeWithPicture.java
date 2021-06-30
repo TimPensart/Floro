@@ -29,6 +29,16 @@ public class ChallengeWithPicture {
         return prijs3;
     }
 
+    private String plantName;
+
+    public String getPlantName() {
+        return plantName;
+    }
+
+    public Seed getSeed() {
+        return seed;
+    }
+
     private String challengeTitle;
     private int imageResource;
     private String imageURL;
@@ -37,7 +47,11 @@ public class ChallengeWithPicture {
     private String prijs3;
 
 
-    public ChallengeWithPicture(String _challenge, String _url, String _p1, String _p2, String _p3) {
+    private Seed seed;
+
+
+    public ChallengeWithPicture(String _plantName, String _challenge, String _url, String _p1, String _p2, String _p3) {
+        plantName = _plantName;
         challengeTitle = _challenge;
         imageURL = _url;
         prijs1 = _p1;
@@ -45,12 +59,24 @@ public class ChallengeWithPicture {
         prijs3 = _p3;
     }
 
-    public ChallengeWithPicture(String _challenge, int _imageResource, String _p1, String _p2, String _p3) {
+    public ChallengeWithPicture(String _plantName, String _challenge, String _url, String _p1, String _p2, String _p3, Seed _seed) {
+        plantName = _plantName;
+        challengeTitle = _challenge;
+        imageURL = _url;
+        prijs1 = _p1;
+        prijs2 = _p2;
+        prijs3 = _p3;
+        seed = _seed;
+    }
+
+    public ChallengeWithPicture(String _plantName, String _challenge, int _imageResource, String _p1, String _p2, String _p3, Seed _seed) {
+        plantName = _plantName;
         challengeTitle = _challenge;
         imageResource = _imageResource;
         prijs1 = _p1;
         prijs2 = _p2;
         prijs3 = _p3;
+        seed = _seed;
     }
 
 

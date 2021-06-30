@@ -6,16 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".UitdagingenActivity">
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:padding="20dp"
+        android:onClick="closeButtonOnClick"
+        app:layout_constraintBottom_toTopOf="@+id/uitdagingenRecycler"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:tint="@color/floro_bright_green"
+            android:onClick="closeButtonOnClick"
+            app:srcCompat="@drawable/ic_close" />
+    </FrameLayout>
+
     <TextView
         android:id="@+id/activityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="uitdagingen"
-        android:textSize="22sp"
-        android:textAllCaps="true"
         android:fontFamily="@font/opensans_extrabold"
+        android:text="uitdagingen"
+        android:textAllCaps="true"
         android:textColor="@color/floro_bright_green"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,23 +59,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
-
-    <FrameLayout
-        android:id="@+id/closeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/uitdagingenRecycler"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="24dp"
-        android:padding="20dp">
-
-    <ImageButton
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter"
-        android:tint="@color/floro_bright_green"
-        app:srcCompat="@drawable/ic_close" />
-    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
