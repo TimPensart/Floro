@@ -1,5 +1,4 @@
-<img alt="screenshot" src="https://github.com/TimPensart/Floro/blob/master/Images/Floro%20logo%404x.png" height="60" />
-
+<img alt="screenshot" src="https://github.com/TimPensart/Floro/blob/master/Images/Floro%20logo%404x.png" height="80" />
 # Floro android app
 Floro is search and learn game made for youth to discover the richness and diversity of plants in nature.
 
