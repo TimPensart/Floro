@@ -1,4 +1,3 @@
-*Design and development by Tim Pensart*
 # Floro app
 Floro is a search and learn game made for youth to discover the richness and diversity of plants in nature.
 <div style="display: flex">
@@ -40,3 +39,5 @@ $ npm start
 - [react-native-elements](https://reactnativeelements.com/)
 - [expo](https://docs.expo.io/)
 - [typescript](https://reactnative.dev/docs/typescript)
+
+*Design and development by Tim Pensart*
