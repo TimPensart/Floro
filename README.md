@@ -1,4 +1,4 @@
-# **Floro app**
+# Floro app
 Floro is a search and learn game made for youth to discover the richness and diversity of plants in nature.
 <div style="display: flex">
 	<kbd><img alt="screenshot" src="https://github.com/TimPensart/MobiliteitCaseGent/blob/main/Screenshot_20210715-173336.jpg" width="250" ></kbd>
