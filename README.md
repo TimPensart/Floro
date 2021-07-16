@@ -1,9 +1,7 @@
 # Floro app
 Floro is a search and learn game made for youth to discover the richness and diversity of plants in nature.
-<div style="display: flex">
-	<kbd><img alt="screenshot" src="https://github.com/TimPensart/MobiliteitCaseGent/blob/main/Screenshot_20210715-173336.jpg" width="250" ></kbd>
-	<kbd><img alt="screenshot" src="https://github.com/TimPensart/MobiliteitCaseGent/blob/main/Screenshot_20210716-004140.jpg" width="250" ></kbd>
-</div>
+
+<kbd><img alt="screenshot" src="https://www.timpensart.be/static/media/floro-mockup.8c78581a.png" width="250" ></kbd>
 
 ## Figma Clickable Designs
 https://www.figma.com/proto/ciOHe0geX4AAlNHQsK3Snl/Floro-Master-Prototype?page-id=0%3A1&node-id=108%3A2&viewport=1152%2C134%2C0.06751421093940735&scaling=min-zoom&starting-point-node-id=108%3A2
