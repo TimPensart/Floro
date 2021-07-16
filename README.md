@@ -39,3 +39,5 @@ $ npm start
 - [react-native-elements](https://reactnativeelements.com/)
 - [expo](https://docs.expo.io/)
 - [typescript](https://reactnative.dev/docs/typescript)
+
+*designs and development by Tim Pensart*
