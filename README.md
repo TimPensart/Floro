@@ -3,7 +3,7 @@
 # Floro android app
 Floro is search and learn game made for youth to discover the richness and diversity of plants in nature.
 
-<kbd><img alt="screenshot" src="https://www.timpensart.be/static/media/floro-mockup.8c78581a.png" height="450" /></kbd>
+<kbd><img alt="screenshot" src="https://www.timpensart.be/static/media/floro-mockup.8c78581a.png" height="350" /></kbd>
 
 
 
