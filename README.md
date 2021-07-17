@@ -10,7 +10,8 @@ Floro is search and learn game made for youth to discover the richness and diver
 ## Figma Clickable Designs
 https://www.figma.com/proto/ciOHe0geX4AAlNHQsK3Snl/Floro-Master-Prototype?page-id=0%3A1&node-id=108%3A2&viewport=1152%2C134%2C0.06751421093940735&scaling=min-zoom&starting-point-node-id=108%3A2
 
-## API usage
+## API technology
+When the user makes a picture of a plant, it gets sent to an API that responds with suggestions of plants.
 <img alt="screenshot"  src="https://plant.id/assets/logo.large.png" width="35" > [Plant.id API](https://plant.id/)
 
 *Design and development by Tim Pensart*
