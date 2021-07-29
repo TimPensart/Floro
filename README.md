@@ -5,7 +5,7 @@ Floro is search and learn game made for youth to discover the richness and diver
 
 <kbd><img alt="screenshot" src="https://www.timpensart.be/static/media/floro-mockup.8c78581a.png" height="350" /></kbd>
 
-## Android open testing (coming soon)
+## Android open testing (live)
 https://play.google.com/store/apps/details?id=com.timpensart.floro
 
 ## Figma Clickable Designs
