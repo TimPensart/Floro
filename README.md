@@ -1,4 +1,4 @@
-> ⚠️ **This project is deprecated and no longer maintained.** It was built as a student project and is archived here for reference only. It receives no updates, no bug fixes and no security patches.
+> ⚠️ **This project is deprecated and no longer maintained.** It was built as a student project and is archived here for reference only. It receives no updates, no bug fixes and no security patches. The app used to be available on play store years ago but has been removed by now.
 
 <img alt="screenshot" src="https://github.com/TimPensart/Floro/blob/master/Images/Floro%20logo%404x.png" height="80" />
 
@@ -7,12 +7,6 @@
 Floro is search and learn game made for youth to discover the richness and diversity of plants in nature.
 
 <kbd><img alt="screenshot" src="https://www.timpensart.be/static/media/floro-mockup.8c78581a.png" height="350" /></kbd>
-
-## Android open testing (live)
-
-https://play.google.com/store/apps/details?id=com.timpensart.floro
-
-<img alt="screenshot" src="https://github.com/TimPensart/Floro/blob/master/Images/QR.png" height="200" />
 
 ## Figma Clickable Designs
 
