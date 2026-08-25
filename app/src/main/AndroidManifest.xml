@@ -4,22 +4,25 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="false"
         android:theme="@style/Theme.Floro">
-        <activity android:name=".QuizActivity" />
-        <activity android:name=".SeedsActivity" />
-        <activity android:name=".TuinActivity" />
-        <activity android:name=".UitdagingenActivity" />
-        <activity android:name=".IdentificationActivity" />
+        <activity android:name=".QuizActivity" android:exported="false" />
+        <activity android:name=".SeedsActivity" android:exported="false" />
+        <activity android:name=".TuinActivity" android:exported="false" />
+        <activity android:name=".UitdagingenActivity" android:exported="false" />
+        <activity android:name=".IdentificationActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +31,5 @@
             </intent-filter>
         </activity>
     </application>
-
-
 
 </manifest>

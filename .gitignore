@@ -1,16 +1,43 @@
+# Android Studio / IntelliJ
 *.iml
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/shelf/
+
+# Gradle / build output
 .gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
 /build
+/app/build
 /captures
 .externalNativeBuild
 .cxx
+.DS_Store
+
+# Local machine config (contains absolute SDK paths)
 local.properties
+/local.properties
+
+# Secrets - never commit these
 /app/src/main/res/values/apikey.xml
+**/apikey.xml
+google-services.json
+keystore.properties
+signing.properties
+secrets.properties
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+
+# Build artifacts (a signed APK/AAB embeds every string resource, API keys included)
+*.apk
+*.aab
+*.ap_
+*.dex
+/app/release/
+/app/debug/

@@ -1,3 +1,9 @@
+> [!WARNING]
+> **This project is deprecated and no longer maintained.**
+> It was built as a student project and is archived here for reference only.
+> It receives no updates, no bug fixes and no security patches. The Plant.id API
+> key it needs is not included in this repository. Do not use it in production.
+
 <img alt="screenshot" src="https://github.com/TimPensart/Floro/blob/master/Images/Floro%20logo%404x.png" height="80" />
 
 # Floro android app
@@ -16,5 +22,19 @@ https://www.figma.com/proto/ciOHe0geX4AAlNHQsK3Snl/Floro-Master-Prototype?page-i
 ## API technology
 When the user makes a picture of a plant, it gets sent to <img alt="screenshot"  src="https://plant.id/assets/logo.large.png" width="35" > [Plant.id API](https://plant.id/) that responds with a list containing suggestions of plants.
 Floro filters the ones with common names and highest % probability.
+
+### Building it yourself
+The API key is not in this repository. To build, create
+`app/src/main/res/values/apikey.xml` (git-ignored) with your own Plant.id key:
+
+```xml
+<resources>
+    <string name="api_key">YOUR_PLANT_ID_API_KEY</string>
+</resources>
+```
+
+Note that any key shipped inside an Android APK is extractable by anyone who
+downloads the app. This project does it the naive way; a real app should proxy
+the call through a backend that holds the key.
 
 *Design and development by Tim Pensart*
